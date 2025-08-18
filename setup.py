@@ -16,6 +16,7 @@ PLAT_TO_CMAKE = {
     "win-arm64": "ARM64",
 }
 
+MODULE_NAME = "UniDeskCppExt"
 
 # A CMakeExtension needs a sourcedir instead of a file list.
 # The name must be the _single_ output extension from the CMake build.
@@ -30,7 +31,7 @@ class CMakeBuild(build_ext):
     def build_extension(self, ext: CMakeExtension) -> None:
         # Must be in this form due to bug in .resolve() only fixed in Python 3.10+
         ext_fullpath = Path.cwd() / self.get_ext_fullpath(ext.name)
-        extdir = ext_fullpath.parent.resolve()
+        extdir = ext_fullpath.parent.resolve() / MODULE_NAME
 
         # Using this requires trailing slash for auto-detection & inclusion of
         # auxiliary "native" libs
@@ -137,7 +138,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 # The information here can also be placed in setup.cfg - better separation of
 # logic and declaration, and simpler if you include description/version in a file.
 setup(
-    name="UniDeskCppExt",
+    name=MODULE_NAME,
     version="0.0.1b"+formatted_time,
     author="Admibrill",
     author_email="admibrill@outlook.com",

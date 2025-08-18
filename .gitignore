@@ -8,3 +8,6 @@ _generate/
 *env*
 test/*.py
 test/*.pyd
+test/*/*.py
+test/*/*.pyd
+test/*/*.pyi
