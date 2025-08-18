@@ -144,6 +144,7 @@ setup(
     author_email="admibrill@outlook.com",
     description="The C++ Extension for Uniquenium",
     long_description=longDescription,
+    long_description_content_type="text/markdown",
     ext_modules=[CMakeExtension("UniDeskCppExt")],
     cmdclass={"build_ext": CMakeBuild},
     packages=["UniDeskCppExt"],
