@@ -11,3 +11,4 @@ test/*.pyd
 test/*/*.py
 test/*/*.pyd
 test/*/*.pyi
+*.user
