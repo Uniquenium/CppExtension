@@ -23,9 +23,9 @@ option(BUILD_PYTHON "Build Python bindings" OFF)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-if(MSVC)
-    add_compile_options(/Zc:__cplusplus)
-endif()
+# if(MSVC)
+#     add_compile_options(/Zc:__cplusplus)
+# endif()
 
 
 set(QT_DEFAULT_MAJOR_VERSION 6)
