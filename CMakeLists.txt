@@ -6,6 +6,7 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
+
 set(PROJECT_NAME UniDeskCppExt)
 set(MODULE_VERSION_MAJOR 0)
 set(MODULE_VERSION_MINOR 0)
@@ -25,6 +26,7 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 # if(MSVC)
 #     add_compile_options(/Zc:__cplusplus)
+#     add_compile_options(/permissive-)
 # endif()
 
 
@@ -100,12 +102,13 @@ message(STATUS "CMake Config install directory:" "${CMAKECONFIG_INSTALL_DIR}")
 
 
 
-add_subdirectory(src)
 
 add_subdirectory(pybind11)
 pybind11_add_module(UDFrameless src/UDFrameless.cpp)
+# target_link_libraries(UDFrameless PRIVATE Qt6::Core)
 
 
+add_subdirectory(src)
 # EXAMPLE_VERSION_INFO is defined by setup.py and passed into the C++ code as a
 # define (VERSION_INFO) here.
 target_compile_definitions(UDFrameless
