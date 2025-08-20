@@ -3,4 +3,4 @@
 	url = git@github.com:pybind/pybind11.git
 [submodule "QHotkey"]
 	path = QHotkey
-	url = git@github.com:LingmoOS/QHotkey
+	url = git@github.com:Uniquenium/QHotkey.git
