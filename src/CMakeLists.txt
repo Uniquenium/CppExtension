@@ -1,25 +1,12 @@
-qt_standard_project_setup()
+project(${PROJECT_NAME} VERSION ${MODULE_VERSION})
 
-# Create Qt6 library target
-qt_add_library(${TARGET} SHARED)
+set(CMAKE_CXX_STANDARD 17)
 
+add_compile_options(/Zc:__cplusplus /permissive- /W4)
 # message(STATUS "Creating target: ${TARGET}")
 
-target_link_libraries(${TARGET}
-        PUBLIC
-        Qt6::Core
-        Qt6::Gui
-        Qt6::DBus
-        Qt6::Widgets
-        PRIVATE
-        Qt6::Qml
-        Qt6::Quick
-        Qt6::QuickControls2
-        Qt6::GuiPrivate
-        Qt6::Core5Compat
-        QHotkey::QHotkey
-        )
-target_include_directories(${TARGET} PRIVATE ${QHOTKEY_INCLUDE_DIR})
+set(QT Core Widgets Quick Qml QuickControls2 DBus Core5Compat)
+find_package(Qt6 ${REQUIRED_QT_VERSION} REQUIRED COMPONENTS ${QT})
 
 if (UNIX)
     if (NOT APPLE)
@@ -49,7 +36,7 @@ foreach (filepath ${H_FILES})
     list(APPEND sources_files ${filename})
 endforeach (filepath)
 
-set(SINGLETON_FILES "Controls/LingmoRouter.qml" "Controls/LingmoUnits.qml")
+# set(SINGLETON_FILES "Controls/LingmoRouter.qml" "Controls/LingmoUnits.qml")
 
 #遍历所有qml文件
 file(GLOB_RECURSE QML_PATHS Controls/*.qml Controls/*.qml qmldir)
@@ -83,18 +70,49 @@ foreach (respath ${RES_PATHS})
     endforeach ()
 endforeach (respath)
 
-# Set Qt6 QMl Plugins
-qt_add_qml_module(${TARGET}
-    PLUGIN_TARGET ${TARGET}
-    OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/temp/${PROJECT_NAME}
-    VERSION ${MODULE_VERSION_MAJOR}.${MODULE_VERSION_MINOR}
-    URI ${PROJECT_NAME}
-    TYPEINFO "plugins.qmltypes"
-    SOURCES ${sources_files}
-    QML_FILES ${qml_files}
-    RESOURCES ${resource_files}
-    RESOURCE_PREFIX "/lingmoui/kit"
+
+# QHotkey
+option(QHOTKEY_INSTALL OFF)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/QHotkey)
+set(QHOTKEY_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/QHotkey/QHotkey)
+
+include(GenerateExportHeader)
+include(GNUInstallDirs)
+include(CMakePackageConfigHelpers)
+include(ECMGenerateHeaders)
+
+# # Set Qt6 QMl Plugins
+# qt_add_qml_module(${TARGET}
+#     PLUGIN_TARGET ${TARGET}
+#     OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/temp/${PROJECT_NAME}
+#     VERSION ${MODULE_VERSION_MAJOR}.${MODULE_VERSION_MINOR}
+#     URI ${PROJECT_NAME}
+#     TYPEINFO "plugins.qmltypes"
+#     SOURCES ${sources_files}
+#     QML_FILES ${qml_files}
+#     RESOURCES ${resource_files}
+#     RESOURCE_PREFIX "/lingmoui/kit"
+# )
+add_library(${TARGET} STATIC
+    ${sources_files}
+    ${qml_files}
+    ${resource_files}
 )
+
+target_link_libraries(${TARGET}
+        PUBLIC
+        Qt6::Core
+        Qt6::Gui
+        Qt6::DBus
+        Qt6::Widgets
+        Qt6::Qml
+        Qt6::Quick
+        Qt6::QuickControls2
+        Qt6::GuiPrivate
+        Qt6::Core5Compat
+        QHotkey::QHotkey
+        )
+target_include_directories(${TARGET} PRIVATE ${QHOTKEY_INCLUDE_DIR} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
 set_target_properties(${TARGET}
     PROPERTIES  VERSION ${MODULE_VERSION} SOVERSION ${MODULE_VERSION_MAJOR})

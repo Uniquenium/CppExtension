@@ -6,7 +6,6 @@
 #include <QQuickWindow>
 #include <QScreen>
 #include <optional>
-#include <pybind11/pybind11.h>
 
 #ifdef Q_OS_WIN
 
@@ -424,6 +423,3 @@ bool containsCursorToItem(QQuickItem* item)
     //     }
     // });
 
-PYBIND11_MODULE(UDFrameless,m){
-    m.def("setWindowEffect",&setWindowEffect,py::arg("hwnd"),py::arg("key"),py::arg("enable"));
-}

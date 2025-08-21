@@ -1,6 +1,8 @@
-cmake_minimum_required(VERSION 3.25)
+cmake_minimum_required(VERSION 3.18)
 
 add_compile_definitions(QT_DISABLE_DEPRECATED_BEFORE=0x050F00)
+
+add_compile_options(/Zc:__cplusplus /permissive- /W4)
 
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
@@ -24,10 +26,6 @@ option(BUILD_PYTHON "Build Python bindings" OFF)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-# if(MSVC)
-#     add_compile_options(/Zc:__cplusplus)
-#     add_compile_options(/permissive-)
-# endif()
 
 
 set(QT_DEFAULT_MAJOR_VERSION 6)
@@ -38,8 +36,7 @@ find_package(ECM REQUIRED NO_MODULE)
 list(APPEND CMAKE_MODULE_PATH ${ECM_MODULE_PATH} ${ECM_KDE_MODULE_DIR})
 message(STATUS "ECM version: ${ECM_VERSION}")
 
-set(QT Core Widgets Quick QuickControls2 DBus Core5Compat)
-find_package(Qt6 ${REQUIRED_QT_VERSION} REQUIRED COMPONENTS ${QT})
+
 
 if (UNIX)
     if (NOT APPLE)
@@ -57,15 +54,7 @@ if(QT_KNOWN_POLICY_QTP0004)
     qt_policy(SET QTP0004 NEW)
 endif()
 
-# QHotkey
-option(QHOTKEY_INSTALL OFF)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/QHotkey)
-set(QHOTKEY_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/QHotkey/QHotkey)
 
-include(GenerateExportHeader)
-include(GNUInstallDirs)
-include(CMakePackageConfigHelpers)
-include(ECMGenerateHeaders)
 
 # Get the installation directory from qmake
 if(ECM_VERSION VERSION_LESS 5.93.0)
@@ -101,16 +90,14 @@ message(STATUS "CMake Config install directory:" "${CMAKECONFIG_INSTALL_DIR}")
 
 
 
-
-
-add_subdirectory(pybind11)
-pybind11_add_module(UDFrameless src/UDFrameless.cpp)
-# target_link_libraries(UDFrameless PRIVATE Qt6::Core)
-
-
 add_subdirectory(src)
+
+add_subdirectory(bindings)
+
+
+
+
 # EXAMPLE_VERSION_INFO is defined by setup.py and passed into the C++ code as a
 # define (VERSION_INFO) here.
-target_compile_definitions(UDFrameless
-                           PRIVATE VERSION_INFO=${EXAMPLE_VERSION_INFO})
+
 
