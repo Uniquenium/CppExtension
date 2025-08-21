@@ -22,8 +22,8 @@ jobs:
         #     qt-arch: 'linux_gcc_64'
           - os: windows-latest
             qt-arch: 'win64_msvc2022_64'
-          - os: macos-latest
-            qt-arch: 'clang_64'
+          # - os: macos-latest
+          #   qt-arch: 'clang_64'
 
     runs-on: ${{ matrix.os }}
     steps:
