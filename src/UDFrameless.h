@@ -1,12 +1,12 @@
 #pragma once
 
 #include "stdafx.h"
-#include <QAbstractNativeEventFilter>
-#include <QObject>
-#include <QQmlProperty>
-#include <QQuickItem>
+// #include <QAbstractNativeEventFilter>
+// #include <QObject>
+// #include <QQmlProperty>
+// #include <QQuickItem>
 
-#ifdef Q_OS_WIN
+
 
 #pragma comment(lib, "user32.lib")
 #pragma comment(lib, "dwmapi.lib")
@@ -14,6 +14,9 @@
 #include <dwmapi.h>
 #include <windows.h>
 #include <windowsx.h>
+
+bool setWindowEffect(long long hwndint, const int key, const bool& enable);
+
 enum _DWM_SYSTEMBACKDROP_TYPE {
     _DWMSBT_AUTO, // [Default] Let DWM automatically decide the system-drawn backdrop for this
     // window.
@@ -100,81 +103,81 @@ typedef BOOL(WINAPI* SetWindowCompositionAttributeFunc)(HWND hwnd,
 typedef UINT(WINAPI* GetDpiForWindowFunc)(HWND hWnd);
 typedef int(WINAPI* GetSystemMetricsForDpiFunc)(int nIndex, UINT dpi);
 
-#endif
 
-#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
-using QT_NATIVE_EVENT_RESULT_TYPE = qintptr;
-using QT_ENTER_EVENT_TYPE = QEnterEvent;
-#else
-using QT_NATIVE_EVENT_RESULT_TYPE = long;
-using QT_ENTER_EVENT_TYPE = QEvent;
-#endif
 
-class LingmoFrameless : public QQuickItem, QAbstractNativeEventFilter {
-    Q_OBJECT
-    Q_PROPERTY_AUTO_P(QQuickItem*, appbar)
-    Q_PROPERTY_AUTO_P(QQuickItem*, maximizeButton)
-    Q_PROPERTY_AUTO_P(QQuickItem*, minimizedButton)
-    Q_PROPERTY_AUTO_P(QQuickItem*, closeButton)
-    Q_PROPERTY_AUTO(bool, topmost)
-    Q_PROPERTY_AUTO(bool, disabled)
-    Q_PROPERTY_AUTO(bool, fixSize)
-    Q_PROPERTY_AUTO(QString, effect)
-    Q_PROPERTY_READONLY_AUTO(bool, effective)
-    Q_PROPERTY_READONLY_AUTO(QStringList, availableEffects)
-    Q_PROPERTY_AUTO(bool, isDarkMode)
-    Q_PROPERTY_AUTO(bool, useSystemEffect)
-    QML_NAMED_ELEMENT(LingmoFrameless)
-public:
-    explicit LingmoFrameless(QQuickItem* parent = nullptr);
+// #if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
+// using QT_NATIVE_EVENT_RESULT_TYPE = qintptr;
+// using QT_ENTER_EVENT_TYPE = QEnterEvent;
+// #else
+// using QT_NATIVE_EVENT_RESULT_TYPE = long;
+// using QT_ENTER_EVENT_TYPE = QEvent;
+// #endif
 
-    ~LingmoFrameless() override;
+// class LingmoFrameless : public QQuickItem, QAbstractNativeEventFilter {
+//     Q_OBJECT
+//     Q_PROPERTY_AUTO_P(QQuickItem*, appbar)
+//     Q_PROPERTY_AUTO_P(QQuickItem*, maximizeButton)
+//     Q_PROPERTY_AUTO_P(QQuickItem*, minimizedButton)
+//     Q_PROPERTY_AUTO_P(QQuickItem*, closeButton)
+//     Q_PROPERTY_AUTO(bool, topmost)
+//     Q_PROPERTY_AUTO(bool, disabled)
+//     Q_PROPERTY_AUTO(bool, fixSize)
+//     Q_PROPERTY_AUTO(QString, effect)
+//     Q_PROPERTY_READONLY_AUTO(bool, effective)
+//     Q_PROPERTY_READONLY_AUTO(QStringList, availableEffects)
+//     Q_PROPERTY_AUTO(bool, isDarkMode)
+//     Q_PROPERTY_AUTO(bool, useSystemEffect)
+//     QML_NAMED_ELEMENT(LingmoFrameless)
+// public:
+//     explicit LingmoFrameless(QQuickItem* parent = nullptr);
 
-    void componentComplete() override;
+//     ~LingmoFrameless() override;
 
-    [[maybe_unused]] bool nativeEventFilter(const QByteArray& eventType, void* message,
-        QT_NATIVE_EVENT_RESULT_TYPE* result) override;
+//     void componentComplete() override;
 
-    [[maybe_unused]] Q_INVOKABLE void showFullScreen();
+//     [[maybe_unused]] bool nativeEventFilter(const QByteArray& eventType, void* message,
+//         QT_NATIVE_EVENT_RESULT_TYPE* result) override;
 
-    Q_INVOKABLE void showMaximized();
+//     [[maybe_unused]] Q_INVOKABLE void showFullScreen();
 
-    [[maybe_unused]] Q_INVOKABLE void showMinimized();
+//     Q_INVOKABLE void showMaximized();
 
-    Q_INVOKABLE void showNormal();
+//     [[maybe_unused]] Q_INVOKABLE void showMinimized();
 
-    Q_INVOKABLE void setHitTestVisible(QQuickItem*);
+//     Q_INVOKABLE void showNormal();
 
-    [[maybe_unused]] Q_INVOKABLE void onDestruction();
+//     Q_INVOKABLE void setHitTestVisible(QQuickItem*);
 
-protected:
-    bool eventFilter(QObject* obj, QEvent* event) override;
+//     [[maybe_unused]] Q_INVOKABLE void onDestruction();
 
-private:
-    bool _isFullScreen();
+// protected:
+//     bool eventFilter(QObject* obj, QEvent* event) override;
 
-    bool _isMaximized();
+// private:
+//     bool _isFullScreen();
 
-    void _updateCursor(int edges);
+//     bool _isMaximized();
 
-    void _setWindowTopmost(bool topmost);
+//     void _updateCursor(int edges);
 
-    void _showSystemMenu(QPoint point);
+//     void _setWindowTopmost(bool topmost);
 
-    bool _hitAppBar();
+//     void _showSystemMenu(QPoint point);
 
-    bool _hitMaximizeButton();
+//     bool _hitAppBar();
 
-    void _setMaximizePressed(bool val);
+//     bool _hitMaximizeButton();
 
-    void _setMaximizeHovered(bool val);
+//     void _setMaximizePressed(bool val);
 
-private:
-    quint64 _current = 0;
-    int _edges = 0;
-    int _margins = 8;
-    quint64 _clickTimer = 0;
-    bool _isWindows11OrGreater = false;
-    QList<QPointer<QQuickItem>> _hitTestList;
-    QString _currentEffect;
-};
+//     void _setMaximizeHovered(bool val);
+
+// private:
+//     quint64 _current = 0;
+//     int _edges = 0;
+//     int _margins = 8;
+//     quint64 _clickTimer = 0;
+//     bool _isWindows11OrGreater = false;
+//     QList<QPointer<QQuickItem>> _hitTestList;
+//     QString _currentEffect;
+// };

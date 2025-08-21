@@ -9,4 +9,4 @@ add_subdirectory(pybind11)
 
 # create bindings
 pybind11_add_module(UDFrameless BUDFrameless.cpp)
-target_link_libraries(UDFrameless PRIVATE unideskcppext)
+target_link_libraries(UDFrameless PRIVATE unideskcppext pybind11::embed)
