@@ -1,0 +1,3 @@
+import UniDeskCppExt.UDFrameless
+
+def setWindowEffect(hwnd: int, key: int, enable: bool) -> None: ...

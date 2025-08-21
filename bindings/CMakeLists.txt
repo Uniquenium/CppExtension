@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.18)
 
-project(${PROJECT_NAME} VERSION ${MODULE_VERSION})
+project(UniDeskCppExt)
 
 set (CMAKE_CXX_STANDARD 17)
 
@@ -9,4 +9,4 @@ add_subdirectory(pybind11)
 
 # create bindings
 pybind11_add_module(UDFrameless BUDFrameless.cpp)
-target_link_libraries(UDFrameless PRIVATE ${TARGET})
+target_link_libraries(UDFrameless PRIVATE unideskcppext)
