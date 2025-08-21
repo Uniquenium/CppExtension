@@ -15,7 +15,7 @@ jobs:
     strategy:
       matrix:
         python-version: ['3.10', '3.11', '3.12']
-        os: [windows-latest, macos-latest]
+        os: [windows-latest]
         qt-version: ["6.8.*"]
         include:
         #   - os: ubuntu-24.04
