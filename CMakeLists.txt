@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.18)
 
 add_compile_definitions(QT_DISABLE_DEPRECATED_BEFORE=0x050F00)
 
-add_compile_options(/Zc:__cplusplus /permissive- /W4)
+# add_compile_options(/Zc:__cplusplus /permissive- /W4)
 
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
